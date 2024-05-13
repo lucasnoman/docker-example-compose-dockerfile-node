@@ -1,0 +1,25 @@
+name: fiap-docker
+
+services:
+  postgre:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=docker
+    volumes:
+      - fiap-postgresql:/bitnami/postgresql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - db
+
+volumes:
+  fiap-postgresql:
+
+networks:
+  db:
+    name: database
+  back-end:
+  front-end:
