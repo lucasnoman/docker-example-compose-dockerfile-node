@@ -17,8 +17,12 @@ async function updateCounter() {
 }
 
 const server = createServer(async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
+  res.setHeader('Access-Control-Max-Age', 2592000);
+
   if (req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.writeHead(200, { 'Content-Type': 'application/json' });
     const countNumber = await selectCounter();
     res.end(JSON.stringify(countNumber));
   } else if (req.method === 'POST') {
