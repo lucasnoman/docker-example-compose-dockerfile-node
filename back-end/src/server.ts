@@ -1,7 +1,11 @@
 import { createServer } from 'node:http';
 import { client } from './database/connect';
 
-await client.connect();
+try {
+  await client.connect();
+} catch (error) {
+  console.log('Error connecting to database: ', error);
+}
 
 async function selectCounter() {
   const result = await client.query('select * from counter;');
@@ -20,12 +24,11 @@ const server = createServer(async (req, res) => {
   } else if (req.method === 'POST') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     await updateCounter();
-    res.end();
+    const countNumber = await selectCounter();
+    res.end(JSON.stringify(countNumber));
   }
-
-  await client.end();
 });
 
 server.listen(3000, () => {
-  console.log('Listening on http://localhost:3001');
+  console.log('Listening on http://localhost:3000');
 });

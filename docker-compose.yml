@@ -14,6 +14,28 @@ services:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - db
+      - back-end
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U docker']
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  back-end:
+    image: lucasnoman/fiap-back-end:1
+    build: ./back-end/
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: /home/lucasnoman/Codes/FIAP/fase1/estudo/docker/back-end
+        target: /app
+    networks:
+      - back-end
+      - db
+    depends_on:
+      postgre:
+        condition: service_healthy
 
 volumes:
   fiap-postgresql:
