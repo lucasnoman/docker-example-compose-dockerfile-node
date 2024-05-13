@@ -2,7 +2,8 @@
   "name": "back-end",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.ts",
+  "type": "module",
   "scripts": {
     "server": "tsx watch src/server.ts"
   },
@@ -11,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.11",
+    "@types/pg": "^8.11.6",
     "tsx": "^4.10.1",
     "typescript": "^5.4.5"
   },
