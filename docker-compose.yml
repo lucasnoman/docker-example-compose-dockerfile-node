@@ -37,6 +37,21 @@ services:
       postgre:
         condition: service_healthy
 
+  front-end:
+    image: lucasnoman/fiap-front-end:1
+    build: ./front-end/
+    ports:
+      - 5173:5173
+    volumes:
+      - type: bind
+        source: /home/lucasnoman/Codes/FIAP/fase1/estudo/docker/front-end
+        target: /app
+    networks:
+      - front-end
+      - back-end
+    depends_on:
+      - back-end
+
 volumes:
   fiap-postgresql:
 
